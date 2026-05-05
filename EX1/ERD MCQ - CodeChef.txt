@@ -1,0 +1,96 @@
+ERD MCQ - CodeChef
+
+ex 1
+
+1)Which of the following statements about the SS column in the Patients table is most accurate, based on the defined schema?
+It is a foreign key referencing the Doctors table.
+It is a primary key uniquely identifying each patient.
+It can contain duplicate values since patients can have the same social security number for security reasons.
+It stores the patient's name.
+
+
+Correct Answer:
+
+It is a primary key uniquely identifying each patient.
+Explanation:
+The table schema definition explicitly states SS VARCHAR(20) PRIMARY KEY in the Patients table. The PRIMARY KEY constraint ensures that each value in the SS column is unique within the Patients table and uniquely identifies each patient record. Option a is incorrect because the SS is not a foreign key there. Options c and d are also incorrect, for similar reasons and general DB understanding.
+
+
+2.What is the primary purpose of the TestLog table in this database schema?
+To store detailed results of medical tests.
+To store the names of all the tests performed in the facility.
+To manage the doctors who performed the tests
+To represent the many-to-many relationship between Patients and Tests.
+
+Correct Answer:
+
+To represent the many-to-many relationship between Patients and Tests.
+
+Explanation:
+Because a patient can have multiple tests and a test can be performed on multiple patients, a direct relationship cannot be represented in a single table. The TestLog table acts as a junction table (or associative entity) to resolve this many-to-many relationship. It contains foreign keys to both the Patients table (SS) and the Tests table (TestID), allowing us to link patients to the specific tests they have undergone. The TestLog table just stores the links, not the data itself as options a and b suggest. Option c is unrelated to the main purpose.
+
+
+
+
+3.Which table would you query to find the specialization of a particular doctor?
+Patients
+Tests
+Doctors
+TestLog
+
+Correct Answer:
+
+Doctors
+Explanation:
+ The Doctors table includes the Specialization column. Therefore, querying this table is the only way to get the doctor specialization information, since there isn't doctor specialization on the other tables and that data is specific to the doctor.
+
+
+
+4.What is the purpose of the FOREIGN KEY constraint in the DrPatient table?
+To ensure that a patient cannot be assigned to more than one doctor.
+To enforce referential integrity between the Doctors and Patients tables.
+To automatically delete doctors when a patient is deleted.
+To limit the number of patients a doctor can see in a day.
+
+
+Correct Answer:
+
+To enforce referential integrity between the Doctors and Patients tables.
+Explanation:
+Foreign keys enforce referential integrity. The DrPatient table has two foreign keys: DSS (referencing Doctors) and SS (referencing Patients). These constraints ensure that you can only insert records into DrPatient with valid DSS and SS values that already exist in the respective parent tables. This maintains the integrity of the relationships between doctors and patients. The other options are not functionalities offered by foreign keys.
+
+
+5.If you wanted to find all the tests that a specific patient (identified by their SS) has undergone, which tables would you need to query?
+Only the Patients and Tests tables.
+Only the TestLog and Tests tables.
+Only the Patients and TestLog tables.
+Patients, TestLog, and Tests tables.
+
+
+Correct Answer:
+
+Patients, TestLog, and Tests tables.
+
+Explanation:
+To retrieve the information, you would need to:
+
+Use the SS from the Patients table to identify the patient.
+
+Use the SS in the TestLog table to find all TestIDs associated with that patient.
+
+Use the TestIDs found in the TestLog table to retrieve the corresponding test details (e.g., TestName, Date, Result) from the Tests table. Thus, all 3 tables are required to complete the query.
+
+
+6.In the TestLog and DrPatient tables, the primary key consists of two columns (e.g., SS and TestID in TestLog). What is this type of primary key called, and why is it used in these particular tables?
+It is called a simple key and is used for faster data retrieval.
+It is called a composite key and is used to uniquely identify each relationship between patients and tests/doctors, respectively, as neither SS nor TestID/DSS alone can uniquely identify a record.
+It is called a foreign key and is used to enforce referential integrity.
+It is called a surrogate key and is used to simplify indexing.
+
+
+Correct Answer:
+
+It is called a composite key and is used to uniquely identify each relationship between patients and tests/doctors, respectively, as neither SS nor TestID/DSS alone can uniquely identify a record.
+Explanation:
+A primary key made up of two or more attributes is called a composite key. In the TestLog table, SS and TestID together uniquely identify the specific relationship between a patient and a test. A patient can have multiple tests, and a test can be performed on multiple patients. Therefore, neither SS nor TestID alone can uniquely identify a row in the TestLog table. Similarly in DrPatient, the composite key (DSS, SS) indicates that this particular doctor is related to this particular patient. Options a, c, and d are describing the wrong kind of key.
+
