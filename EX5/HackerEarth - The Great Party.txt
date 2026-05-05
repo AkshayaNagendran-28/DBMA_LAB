@@ -1,0 +1,34 @@
+HackerEarth - The Great Party
+
+
+def solve():
+    n = int(input())
+    costs = list(map(int, input().split()))
+    m = int(input())
+    
+    graph = [[] for _ in range(n)]
+    for _ in range(m):
+        u, v = map(int, input().split())
+        u -= 1
+        v -= 1
+        graph[u].append(v)
+        graph[v].append(u)
+    
+    visited = [False] * n
+    total_cost = 0
+    
+    def dfs(node):
+        visited[node] = True
+        cost = costs[node]
+        for neighbor in graph[node]:
+            if not visited[neighbor]:
+                cost += dfs(neighbor)
+        return cost
+    
+    for i in range(n):
+        if not visited[i]:
+            total_cost += dfs(i)
+    
+    print(total_cost)
+
+solve()

@@ -1,0 +1,10 @@
+HackerRank – Populatuion Census
+
+SELECT 
+    co.CODE,
+    co.NAME,
+    SUM(c.POPULATION) AS total_population
+FROM CITY c
+JOIN COUNTRY co ON c.COUNTRYCODE = co.CODE
+GROUP BY co.CODE, co.NAME
+ORDER BY co.CODE;
