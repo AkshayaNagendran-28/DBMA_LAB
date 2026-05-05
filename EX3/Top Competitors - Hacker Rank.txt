@@ -1,0 +1,15 @@
+Top Competitors - Hacker Rank 
+
+def solve_blunder(S):
+    # Replace operations due to blunder
+    S = S.replace('*', 'TEMP')
+    S = S.replace('/', '*')
+    S = S.replace('TEMP', '/')
+    
+    # Evaluate the expression
+    result = eval(S)
+    return int(result)
+
+# Input
+S = input().strip()
+print(solve_blunder(S))

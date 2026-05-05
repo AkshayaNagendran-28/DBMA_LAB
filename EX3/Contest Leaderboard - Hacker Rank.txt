@@ -1,0 +1,28 @@
+Contest Leaderboard - Hacker Rank
+
+
+def contest_leaderboard(scores):
+    # Dictionary to store max score for each hacker
+    hacker_scores = {}
+    
+    for hacker_id, score in scores:
+        if hacker_id not in hacker_scores:
+            hacker_scores[hacker_id] = score
+        else:
+            hacker_scores[hacker_id] = max(hacker_scores[hacker_id], score)
+    
+    # Sort by score (descending), then by hacker_id (ascending)
+    result = sorted(hacker_scores.items(), key=lambda x: (-x[1], x[0]))
+    
+    return result
+
+# Input handling
+n = int(input())
+scores = []
+for _ in range(n):
+    hacker_id, score = map(int, input().split())
+    scores.append((hacker_id, score))
+
+result = contest_leaderboard(scores)
+for hacker_id, score in result:
+    print(hacker_id, score)

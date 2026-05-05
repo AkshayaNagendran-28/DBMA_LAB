@@ -1,0 +1,33 @@
+The Blunder - Hacker Rank
+
+import sys
+sys.set_int_max_str_digits(0)  # Prevent large number string representations
+
+def the_blunder(actual_salary):
+    # Convert actual salary to string to replace '5' with '0'
+    salary_str = str(actual_salary)
+    # Compute the "blundered" salary (keyboard reads 5 as 0)
+    blundered_str = salary_str.replace('5', '0')
+    blundered_salary = int(blundered_str)
+    
+    # Calculate the difference
+    difference = actual_salary - blundered_salary
+    
+    # Return result according to problem statement
+    if difference < 0:
+        return "ERROR"
+    else:
+        return difference
+
+# Input
+if __name__ == "__main__":
+    try:
+        actual_salary = int(input())
+        result = the_blunder(actual_salary)
+        print(result)
+    except EOFError:
+        # If the input is shorter than expected
+        pass
+    except ValueError:
+        # If the input is not an integer
+        pass
