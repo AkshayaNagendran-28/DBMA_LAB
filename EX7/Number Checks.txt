@@ -1,0 +1,92 @@
+Number Checks
+Even/Odd:
+---------------
+
+DECLARE
+    num NUMBER := &enter_number;
+BEGIN
+    IF MOD(num, 2) = 0 THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is EVEN');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(num || ' is ODD');
+    END IF;
+END;
+/
+
+Prime Number:
+----------------------
+DECLARE
+    num NUMBER := &enter_number;
+    i NUMBER;
+    flag NUMBER := 0;
+BEGIN
+    IF num <= 1 THEN
+        DBMS_OUTPUT.PUT_LINE('Not Prime');
+    ELSE
+        FOR i IN 2..FLOOR(SQRT(num)) LOOP
+            IF MOD(num, i) = 0 THEN
+                flag := 1;
+                EXIT;
+            END IF;
+        END LOOP;
+        
+        IF flag = 0 THEN
+            DBMS_OUTPUT.PUT_LINE(num || ' is PRIME');
+        ELSE
+            DBMS_OUTPUT.PUT_LINE(num || ' is NOT PRIME');
+        END IF;
+    END IF;
+END;
+/
+
+Armstrong Number:
+-----------------------------
+
+
+DECLARE
+    num NUMBER := &enter_number;
+    temp NUMBER;
+    remainder NUMBER;
+    result NUMBER := 0;
+    n NUMBER := 0;
+BEGIN
+    temp := num;
+    
+    -- Count digits
+    WHILE temp != 0 LOOP
+        n := n + 1;
+        temp := FLOOR(temp / 10);
+    END LOOP;
+    
+    temp := num;
+    
+    -- Calculate sum of power of digits
+    WHILE temp != 0 LOOP
+        remainder := MOD(temp, 10);
+        result := result + POWER(remainder, n);
+        temp := FLOOR(temp / 10);
+    END LOOP;
+    
+    IF result = num THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is ARMSTRONG number');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE(num || ' is NOT ARMSTRONG number');
+    END IF;
+END;
+/
+
+
+Positive/Negative:
+---------------------
+DECLARE
+    num NUMBER := &enter_number;
+BEGIN
+    IF num > 0 THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is POSITIVE');
+    ELSIF num < 0 THEN
+        DBMS_OUTPUT.PUT_LINE(num || ' is NEGATIVE');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Number is ZERO');
+    END IF;
+END;
+/

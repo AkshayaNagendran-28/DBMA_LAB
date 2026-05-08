@@ -1,0 +1,21 @@
+Fibonacci Series
+
+
+DECLARE
+    n1 NUMBER := 0;
+    n2 NUMBER := 1;
+    n3 NUMBER;
+    i NUMBER := 10; -- number of terms
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Fibonacci Series:');
+    DBMS_OUTPUT.PUT_LINE(n1);
+    DBMS_OUTPUT.PUT_LINE(n2);
+    
+    FOR j IN 3..i LOOP
+        n3 := n1 + n2;
+        DBMS_OUTPUT.PUT_LINE(n3);
+        n1 := n2;
+        n2 := n3;
+    END LOOP;
+END;
+/
