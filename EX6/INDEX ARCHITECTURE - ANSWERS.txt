@@ -1,0 +1,12 @@
+INDEX ARCHITECTURE - ANSWERS
+Q: Clustered vs Non-Clustered index difference?
+
+Clustered index determines physical order of data, only one per table.
+Non-clustered index creates separate structure, multiple allowed per table.
+Q: Best index for equality searches?
+Hash Index
+Q: Best index for range queries?
+
+B-Tree Index
+Q: Best index for low cardinality columns?
+Bitmap Index
