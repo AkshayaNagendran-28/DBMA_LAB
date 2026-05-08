@@ -1,0 +1,58 @@
+Highest Salary in Each Department (Nested While Loop)
+CREATE OR REPLACE PROCEDURE pro_highest_salary_dept
+AS
+    CURSOR dept_cursor IS
+        SELECT deptno, dname FROM departments;
+    
+    CURSOR emp_cursor(p_deptno NUMBER) IS
+        SELECT ename, salary FROM employees
+        WHERE deptno = p_deptno
+        ORDER BY salary DESC;
+    
+    v_deptno departments.deptno%TYPE;
+    v_dname departments.dname%TYPE;
+    v_ename employees.ename%TYPE;
+    v_salary employees.salary%TYPE;
+    v_max_salary employees.salary%TYPE;
+    v_counter NUMBER;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('=====================================================');
+    DBMS_OUTPUT.PUT_LINE('HIGHEST SALARY EMPLOYEES IN EACH DEPARTMENT');
+    DBMS_OUTPUT.PUT_LINE('=====================================================');
+    
+    OPEN dept_cursor;
+    
+    WHILE dept_cursor%FOUND LOOP
+        FETCH dept_cursor INTO v_deptno, v_dname;
+        EXIT WHEN dept_cursor%NOTFOUND;
+        
+        DBMS_OUTPUT.PUT_LINE(CHR(10) || 'Department: ' || v_dname);
+        DBMS_OUTPUT.PUT_LINE('---------');
+        
+        OPEN emp_cursor(v_deptno);
+        v_counter := 0;
+        
+        WHILE v_counter < 1 LOOP
+            FETCH emp_cursor INTO v_ename, v_salary;
+            EXIT WHEN emp_cursor%NOTFOUND;
+            
+            DBMS_OUTPUT.PUT_LINE('Employee: ' || v_ename || 
+                                ' Salary: ' || v_salary);
+            v_counter := v_counter + 1;
+        END LOOP;
+        
+        CLOSE emp_cursor;
+    END LOOP;
+    
+    CLOSE dept_cursor;
+    DBMS_OUTPUT.PUT_LINE(CHR(10) || '=====================================================');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+        IF emp_cursor%ISOPEN THEN CLOSE emp_cursor; END IF;
+        IF dept_cursor%ISOPEN THEN CLOSE dept_cursor; END IF;
+END pro_highest_salary_dept;
+/
+
+-- Execute
+EXEC pro_highest_salary_dept;
