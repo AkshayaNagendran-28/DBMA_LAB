@@ -1,0 +1,27 @@
+EMAIL NOTIFICAION
+
+CREATE OR REPLACE TRIGGER trg_error_alert
+AFTER SERVERERROR ON SCHEMA
+DECLARE
+    v_msg VARCHAR2(4000);
+BEGIN
+    v_msg := 'Error: ' || SQLERRM || 
+             ' at ' || TO_CHAR(SYSDATE, 'DD-MON-YYYY HH24:MI:SS');
+    
+    -- Log to table
+    INSERT INTO error_logs VALUES (
+        error_seq.NEXTVAL,
+        SYSTIMESTAMP,
+        SQLCODE,
+        SQLERRM,
+        USER
+    );
+    
+    -- Print notification (in production, use UTL_MAIL)
+    DBMS_OUTPUT.PUT_LINE('Email would be sent to: admin@company.com');
+    DBMS_OUTPUT.PUT_LINE('Subject: Database Error');
+    DBMS_OUTPUT.PUT_LINE('Message: ' || v_msg);
+    
+    COMMIT;
+END;
+/

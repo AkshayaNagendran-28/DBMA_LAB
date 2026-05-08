@@ -1,0 +1,17 @@
+Auto-Update Last Modified Timestamp
+
+CREATE TABLE employees (
+    empno NUMBER PRIMARY KEY,
+    ename VARCHAR2(50),
+    salary NUMBER,
+    last_modified TIMESTAMP
+);
+
+-- Create trigger
+CREATE OR REPLACE TRIGGER trg_update_timestamp
+BEFORE UPDATE ON employees
+FOR EACH ROW
+BEGIN
+    :NEW.last_modified := SYSTIMESTAMP;
+END;
+/

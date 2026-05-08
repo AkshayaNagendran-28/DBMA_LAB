@@ -1,0 +1,20 @@
+Check Duplicate Values
+
+CREATE OR REPLACE TRIGGER trg_check_duplicate_email
+BEFORE INSERT OR UPDATE OF email ON employees
+FOR EACH ROW
+DECLARE
+    v_count NUMBER;
+BEGIN
+    SELECT COUNT(*) 
+    INTO v_count 
+    FROM employees 
+    WHERE UPPER(email) = UPPER(:NEW.email)
+    AND empno != :NEW.empno;
+    
+    IF v_count > 0 THEN
+        RAISE_APPLICATION_ERROR(-20003, 
+            'Duplicate email found. Email must be unique.');
+    END IF;
+END;
+/

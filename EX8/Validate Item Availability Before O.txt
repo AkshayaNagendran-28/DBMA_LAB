@@ -1,0 +1,42 @@
+Validate Item Availability Before Order
+
+
+CREATE OR REPLACE TRIGGER trg_validate_stock
+BEFORE INSERT ON order_details
+FOR EACH ROW
+DECLARE
+    v_available_stock NUMBER;
+    v_pending_orders NUMBER;
+    v_item_name VARCHAR2(100);
+BEGIN
+    -- Get current stock
+    SELECT stock_quantity, item_name
+    INTO v_available_stock, v_item_name
+    FROM items
+    WHERE item_id = :NEW.item_id;
+    
+    -- Get pending orders
+    SELECT NVL(SUM(quantity), 0)
+    INTO v_pending_orders
+    FROM order_details od
+    JOIN orders o ON od.order_id = o.order_id
+    WHERE od.item_id = :NEW.item_id
+    AND o.status = 'PENDING';
+    
+    -- Calculate available stock
+    v_available_stock := v_available_stock - v_pending_orders;
+    
+    -- Check if sufficient stock
+    IF :NEW.quantity > v_available_stock THEN
+        RAISE_APPLICATION_ERROR(-20004, 
+            'Insufficient stock for item: ' || v_item_name || 
+            '. Available: ' || v_available_stock || 
+            ', Requested: ' || :NEW.quantity);
+    END IF;
+    
+    -- Update stock
+    UPDATE items 
+    SET stock_quantity = stock_quantity - :NEW.quantity
+    WHERE item_id = :NEW.item_id;
+END;
+/
